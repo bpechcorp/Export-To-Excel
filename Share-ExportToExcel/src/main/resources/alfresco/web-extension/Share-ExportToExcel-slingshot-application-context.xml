@@ -22,5 +22,15 @@
          </list>
       </property>
    </bean>
+    <bean id="evaluator.doclib.action.isFolderType" parent="evaluator.doclib.action.nodeType">
+        <property name="allowSubtypes">
+            <value>false</value>
+        </property>
+        <property name="types">
+            <list>
+                <value>cm:folder</value>
+            </list>
+        </property>
+    </bean>
 
 </beans>

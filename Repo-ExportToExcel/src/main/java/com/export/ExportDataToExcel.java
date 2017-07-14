@@ -3,9 +3,13 @@ package com.export;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.alfresco.model.ContentModel;
 import org.alfresco.repo.content.MimetypeMap;
+import org.alfresco.service.cmr.repository.ChildAssociationRef;
+import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.NodeService;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -36,7 +40,11 @@ public class ExportDataToExcel extends AbstractWebScript {
 	 */
 	@Override
 	public void execute(WebScriptRequest req, WebScriptResponse res) throws IOException {
-		writeDataInExcel(res);
+		String nodeRefParam=req.getParameter("nodeRef");
+		if(nodeRefParam!=null){
+			
+			writeDataInExcel(res,new NodeRef(nodeRefParam));
+		}
 	}
 
 	/**
@@ -64,10 +72,10 @@ public class ExportDataToExcel extends AbstractWebScript {
 	 */
 	public List<String> getHeaderList() {
 		List<String> listString = new ArrayList<>();
-		listString.add("Header1");
-		listString.add("Header2");
-		listString.add("Header3");
-		listString.add("Header4");
+		listString.add("Name");
+		listString.add("Title");
+		listString.add("Description");
+		listString.add("Created Date");
 		return listString;
 	}
 
@@ -77,29 +85,19 @@ public class ExportDataToExcel extends AbstractWebScript {
 	 * 
 	 * @return List of values which we need to write in excel
 	 */
-	public List<List<Object>> getData() {
-		List<List<Object>> listString = new ArrayList<>();
-		// Adding sample data
-		// ******************
-		// Creating sample Row 1
-		List<Object> sampleRow1 = new ArrayList<>();
-		sampleRow1.add("sampleCell11");
-		sampleRow1.add("sampleCell12");
-		sampleRow1.add("sampleCell13");
-		sampleRow1.add("sampleCell14");
-
-		// Creating sample Row 2
-		List<Object> sampleRow2 = new ArrayList<>();
-		sampleRow2.add(new Employee("Jhon"));
-		sampleRow2.add(new Employee("Ethan"));
-		sampleRow2.add(new Employee("Kevin"));
-		sampleRow2.add(new Employee("Mike"));
-
-		// Adding sample row in row list
-		listString.add(sampleRow1);
-		listString.add(sampleRow2);
-
-		return listString;
+	public List<List<Object>> getData(NodeRef folderNode) {
+		List<List<Object>> listData = new ArrayList<>();
+		
+		List<ChildAssociationRef> childAssociationRefList=nodeService.getChildAssocs(folderNode);
+		for(ChildAssociationRef child:childAssociationRefList){
+			List<Object> row = new ArrayList<>();
+			row.add(nodeService.getProperty(child.getChildRef(),ContentModel.PROP_NAME));
+			row.add(nodeService.getProperty(child.getChildRef(),ContentModel.PROP_TITLE));
+			row.add(nodeService.getProperty(child.getChildRef(),ContentModel.PROP_DESCRIPTION));
+			row.add(nodeService.getProperty(child.getChildRef(),ContentModel.PROP_CREATED));
+			listData.add(row);
+		}
+		return listData;
 	}
 
 	/**
@@ -111,14 +109,14 @@ public class ExportDataToExcel extends AbstractWebScript {
 	 *            Writing content in output stream
 	 * @throws IOException
 	 */
-	public void writeDataInExcel(WebScriptResponse res) throws IOException {
+	public void writeDataInExcel(WebScriptResponse res,NodeRef folderNode) throws IOException {
 		// Create Work Book and WorkSheet
 		Workbook wb = new XSSFWorkbook();
 		Sheet sheet = wb.createSheet("ExcelFile");
 		sheet.createFreezePane(0, 1);
 
 		generateHeaderInExcel(sheet);
-		generateDataInExcel(sheet);
+		generateDataInExcel(sheet,folderNode);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		wb.write(baos);
 		ResponseDataInExcel(res, baos.toByteArray());
@@ -146,8 +144,8 @@ public class ExportDataToExcel extends AbstractWebScript {
 	 *            sheet It is an excel sheet object, where the data will be
 	 *            written
 	 */
-	public void generateDataInExcel(Sheet sheet) {
-		List<List<Object>> listOfData = getData();
+	public void generateDataInExcel(Sheet sheet,NodeRef folderNode) {
+		List<List<Object>> listOfData = getData(folderNode);
 
 		// Give first row as 1 and column as 0
 		int rowNum = 1, colNum = 0;
@@ -162,6 +160,8 @@ public class ExportDataToExcel extends AbstractWebScript {
 					c.setCellValue(obj.toString());
 				} else if (obj instanceof Employee) {
 					c.setCellValue(((Employee) obj).getName());
+				} else if (obj instanceof Date) {
+					c.setCellValue(obj.toString());
 				}
 				colNum++;
 			}

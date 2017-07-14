@@ -1,0 +1,33 @@
+<extension>
+	<modules>
+		<module>
+			<id>Export Action On Folders</id>
+			<version>1.0</version>
+			<auto-deploy>true</auto-deploy>
+			<configurations>
+				<config evaluator="string-compare" condition="DocLibCustom">
+					<dependencies>
+						<js src="Share-ExportToExcel/export-doclib-actions.js" />
+					</dependencies>
+				</config>
+				<config evaluator="string-compare" condition="DocLibActions">
+					<actions>
+						<action id="document-data-export" type="javascript"
+							label="actions.document.export" icon="export-data">
+							<param name="function">onActionExportData</param>
+							<evaluator>evaluator.doclib.action.isFolderType</evaluator>
+						</action>
+					</actions>
+					<actionGroups>
+						<actionGroup id="folder-browse">
+							<action index="101" id="document-data-export" />
+						</actionGroup>
+						<actionGroup id="folder-details">
+							<action index="101" id="document-data-export" />
+						</actionGroup>
+					</actionGroups>
+				</config>
+			</configurations>
+		</module>
+	</modules>
+</extension>

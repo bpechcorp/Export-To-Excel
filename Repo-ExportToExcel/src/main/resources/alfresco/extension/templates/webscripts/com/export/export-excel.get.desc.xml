@@ -1,7 +1,7 @@
 <webscript>
   <shortname>Export to Excel Webscript</shortname>
   <description>Sample Export to excel webscript</description>
-  <url>/export/excel/</url>
+  <url>/export/excel</url>
   <format default="xls">argument</format>
   <authentication>user</authentication>
   <transaction allow="readonly">required</transaction>
