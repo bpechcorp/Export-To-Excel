@@ -1,0 +1,14 @@
+2017-07-14 16:43:48,242 INFO  [org.alfresco.web.config.packaging.ModulePackageManager] [localhost-startStop-1] Found 2 module package(s)
+2017-07-14 16:43:48,256 INFO  [org.alfresco.web.config.packaging.ModulePackageManager] [localhost-startStop-1] Share-ExportToExcel Share Jar Module - SDK 3, 1.0-SNAPSHOT, Share JAR Module (to be included in the share.war) - SDK 3
+Share-ExportToExcel Share Jar Module - SDK 3, 1.0-SNAPSHOT, Share JAR Module (to be included in the share.war) - SDK 3
+
+2017-07-14 16:43:49,251 INFO  [org.springframework.extensions.webscripts.TemplateProcessorRegistry] [localhost-startStop-1] Registered template processor freemarker for extension ftl
+2017-07-14 16:43:49,256 INFO  [org.springframework.extensions.webscripts.ScriptProcessorRegistry] [localhost-startStop-1] Registered script processor javascript for extension js
+2017-07-14 16:43:49,257 INFO  [org.springframework.extensions.webscripts.TemplateProcessorRegistry] [localhost-startStop-1] Registered template processor freemarker for extension ftl
+2017-07-14 16:43:49,258 INFO  [org.springframework.extensions.webscripts.ScriptProcessorRegistry] [localhost-startStop-1] Registered script processor javascript for extension js
+2017-07-14 16:43:55,349 INFO  [org.springframework.extensions.webscripts.DeclarativeRegistry] [localhost-startStop-1] Registered 392 Web Scripts (+0 failed), 410 URLs
+2017-07-14 16:43:55,349 INFO  [org.springframework.extensions.webscripts.DeclarativeRegistry] [localhost-startStop-1] Registered 8 Package Description Documents (+0 failed) 
+2017-07-14 16:43:55,350 INFO  [org.springframework.extensions.webscripts.DeclarativeRegistry] [localhost-startStop-1] Registered 0 Schema Description Documents (+0 failed) 
+2017-07-14 16:43:55,433 INFO  [org.springframework.extensions.webscripts.AbstractRuntimeContainer] [localhost-startStop-1] Initialised Surf Container Web Script Container (in 6151.448ms)
+2017-07-14 16:43:55,437 INFO  [org.springframework.extensions.webscripts.TemplateProcessorRegistry] [localhost-startStop-1] Registered template processor freemarker for extension ftl
+2017-07-14 16:43:55,438 INFO  [org.springframework.extensions.webscripts.ScriptProcessorRegistry] [localhost-startStop-1] Registered script processor javascript for extension js
